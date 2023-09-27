@@ -1,7 +1,6 @@
 package packsize
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -20,7 +19,6 @@ func NumberOfPacks(order int) map[int]int {
 					break
 				}
 			} else if index+2 == len(packSizes) && order > packSizes[index+1] {
-				fmt.Println(order, packSize, index)
 				result[packSizes[index]] += 1
 				order = 0
 				break
