@@ -16,7 +16,7 @@ func Api() *fiber.App {
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}
 	app.Use(cors.New(corsConfig))
-
+	app.Static("/", ".")
 	app.Get("/numberOfPacks/:packsize", func(c *fiber.Ctx) error {
 		stringSize := c.Params("packsize")
 		ps, err := strconv.Atoi(stringSize)
