@@ -12,26 +12,26 @@
 
   <form id="getPackSizeForm" class="mt-4">
     <div class="form-group">
-      <label for="getPackSizeInput">Get Size:</label>
-      <input type="number" class="form-control" id="getPackSizeInput" placeholder="Enter size">
+      <label for="getPackSizeInput">Get  Pack Size:</label>
+      <input type="number" class="form-control" id="getPackSizeInput" placeholder="Enter order">
     </div>
-    <button type="submit" class="btn btn-primary">Get Size</button>
+    <button type="submit" class="btn btn-primary">Get Pack Sizes</button>
   </form>
 
   <form id="addPackSizeForm" class="mt-4">
     <div class="form-group">
-      <label for="addPackSizeInput">Add Size:</label>
-      <input type="number" class="form-control" id="addPackSizeInput" placeholder="Enter size">
+      <label for="addPackSizeInput">Add Pack Size:</label>
+      <input type="number" class="form-control" id="addPackSizeInput" placeholder="Enter pack size">
     </div>
-    <button type="submit" class="btn btn-success">Add Size</button>
+    <button type="submit" class="btn btn-success">Add Pack Size</button>
   </form>
 
   <form id="removePackSizeForm" class="mt-4">
     <div class="form-group">
-      <label for="removePackSizeInput">Remove Size:</label>
-      <input type="number" class="form-control" id="removePackSizeInput" placeholder="Enter size">
+      <label for="removePackSizeInput">Remove Pack Size:</label>
+      <input type="number" class="form-control" id="removePackSizeInput" placeholder="Enter pack size">
     </div>
-    <button type="submit" class="btn btn-danger">Remove Size</button>
+    <button type="submit" class="btn btn-danger">Remove Pack Size</button>
   </form>
 
   <div id="result" class="mt-4"></div>
@@ -49,17 +49,21 @@
   document.getElementById("getPackSizeForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const packSize = document.getElementById("getPackSizeInput").value;
-    fetch(`http://65.109.94.114:5000/numberOfPacks/${packSize}`)
+    fetch(`http://ec2-3-144-144-34.us-east-2.compute.amazonaws.com:3000/numberOfPacks/${packSize}`)
             .then((response) => response.json())
             .then((data) => {
-              displayResult(JSON.stringify(data));
+              let result = "Pack Sizes:<br/>";
+              for( i in data)
+                result += data[i] + " * " + i + "<br/>";
+              displayResult(result);
+              //displayResult(JSON.stringify(data));
             });
   });
 
   document.getElementById("addPackSizeForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const packSize = document.getElementById("addPackSizeInput").value;
-    fetch(`http://65.109.94.114:5000/addPackSize/${packSize}`, { method: "POST" })
+    fetch(`http://ec2-3-144-144-34.us-east-2.compute.amazonaws.com:3000/addPackSize/${packSize}`, { method: "POST" })
             .then(() => {
               displayResult("Pack Size added successfully.");
             });
@@ -68,8 +72,7 @@
   document.getElementById("removePackSizeForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const packSize = document.getElementById("removePackSizeInput").value;
-    alert(packSize)
-    fetch(`http://65.109.94.114:5000/removePackSize/${packSize}`, { method: "DELETE" })
+    fetch(`http://ec2-3-144-144-34.us-east-2.compute.amazonaws.com:3000/removePackSize/${packSize}`, { method: "DELETE" })
             .then(() => {
               displayResult("Pack Size removed successfully.");
             });
