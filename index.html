@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pack Size Web Interface</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Pack Size Web Interface</h1>
+
+  <form id="getPackSizeForm" class="mt-4">
+    <div class="form-group">
+      <label for="getPackSizeInput">Get Size:</label>
+      <input type="number" class="form-control" id="getPackSizeInput" placeholder="Enter size">
+    </div>
+    <button type="submit" class="btn btn-primary">Get Size</button>
+  </form>
+
+  <form id="addPackSizeForm" class="mt-4">
+    <div class="form-group">
+      <label for="addPackSizeInput">Add Size:</label>
+      <input type="number" class="form-control" id="addPackSizeInput" placeholder="Enter size">
+    </div>
+    <button type="submit" class="btn btn-success">Add Size</button>
+  </form>
+
+  <form id="removePackSizeForm" class="mt-4">
+    <div class="form-group">
+      <label for="removePackSizeInput">Remove Size:</label>
+      <input type="number" class="form-control" id="removePackSizeInput" placeholder="Enter size">
+    </div>
+    <button type="submit" class="btn btn-danger">Remove Size</button>
+  </form>
+
+  <div id="result" class="mt-4"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+  function displayResult(result) {
+    document.getElementById("result").innerHTML = result;
+  }
+
+  document.getElementById("getPackSizeForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const packSize = document.getElementById("getPackSizeInput").value;
+    fetch(`http://65.109.94.114:5000/numberOfPacks/${packSize}`)
+            .then((response) => response.json())
+            .then((data) => {
+              displayResult(JSON.stringify(data));
+            });
+  });
+
+  document.getElementById("addPackSizeForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const packSize = document.getElementById("addPackSizeInput").value;
+    fetch(`http://65.109.94.114:5000/addPackSize/${packSize}`, { method: "POST" })
+            .then(() => {
+              displayResult("Pack Size added successfully.");
+            });
+  });
+
+  document.getElementById("removePackSizeForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const packSize = document.getElementById("removePackSizeInput").value;
+    alert(packSize)
+    fetch(`http://65.109.94.114:5000/removePackSize/${packSize}`, { method: "DELETE" })
+            .then(() => {
+              displayResult("Pack Size removed successfully.");
+            });
+  });
+</script>
+</body>
+</html>
